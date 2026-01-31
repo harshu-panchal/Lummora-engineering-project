@@ -1,8 +1,26 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { engineeringExcellence } from '../data/content';
 import { Cpu, CheckCircle, Zap } from 'lucide-react';
+import axios from 'axios';
 
 const EngineeringExcellence = () => {
+    const [data, setData] = useState(engineeringExcellence);
+
+    useEffect(() => {
+        const fetchExcellence = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/content/engineeringExcellence');
+                if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+                    setData(res.data);
+                }
+            } catch (err) {
+                console.error("Failed to fetch excellence data", err);
+            }
+        };
+        fetchExcellence();
+    }, []);
+
     return (
         <div className="bg-[#050505] min-h-screen text-gray-300">
             {/* Hero Section */}
@@ -34,7 +52,7 @@ const EngineeringExcellence = () => {
                 <div className="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-neon-blue/30 to-transparent -translate-x-1/2 hidden md:block"></div>
 
                 <div className="container-custom relative">
-                    {engineeringExcellence.map((item, index) => (
+                    {data.map((item, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, y: 50 }}
@@ -51,7 +69,7 @@ const EngineeringExcellence = () => {
                             <div className={`md:w-1/2 px-8 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'} text-center`}>
                                 <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white/5 border border-white/10 text-neon-blue mb-6 shadow-[0_0_15px_rgba(0,243,255,0.2)] ${index % 2 === 0 ? 'md:ml-auto' : 'md:mr-auto'
                                     }`}>
-                                    <item.icon size={32} />
+                                    {item.icon && typeof item.icon === 'function' ? <item.icon size={32} /> : <Cpu size={32} />}
                                 </div>
                                 <h3 className="text-3xl font-bold text-white mb-4 uppercase tracking-wide">{item.title}</h3>
                                 <p className="text-gray-400 text-lg leading-relaxed font-light">
@@ -65,12 +83,7 @@ const EngineeringExcellence = () => {
                                     <div className="aspect-video overflow-hidden relative">
                                         <div className="absolute inset-0 bg-neon-blue/10 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity"></div>
                                         <img
-                                            src={[
-                                                '/cad_design.png',
-                                                '/quality_check.png',
-                                                '/smart_engineering.png',
-                                                '/safety_gear.png'
-                                            ][index] || '/cad_design.png'}
+                                            src={item.image || '/cad_design.png'}
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
                                             alt={item.title}
                                         />

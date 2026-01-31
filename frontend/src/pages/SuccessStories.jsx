@@ -1,9 +1,35 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { testimonials } from '../data/content';
+import { testimonials as staticTestimonials } from '../data/content';
 import { Quote, Star, ArrowRight, Trophy } from 'lucide-react';
 import Button from '../components/ui/Button';
+import axios from 'axios';
 
 const SuccessStories = () => {
+    const [testimonials, setTestimonials] = useState(staticTestimonials);
+    const [companyData, setCompanyData] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [testRes, cdRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/content/testimonials'),
+                    axios.get('http://localhost:5000/api/content/companyData')
+                ]);
+
+                if (testRes.data && Array.isArray(testRes.data) && testRes.data.length > 0) {
+                    setTestimonials(testRes.data);
+                }
+                if (cdRes.data) {
+                    setCompanyData(cdRes.data);
+                }
+            } catch (err) {
+                console.error("Testimonials fetch failed", err);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <div className="bg-slate-50">
             {/* Hero */}
@@ -42,7 +68,7 @@ const SuccessStories = () => {
                     >
                         <div className="lg:w-1/2 relative min-h-[500px] overflow-hidden group">
                             <img
-                                src="/modern_building.png"
+                                src={companyData.successImage || "/modern_building.png"}
                                 alt="Modern Corporate Complex"
                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />

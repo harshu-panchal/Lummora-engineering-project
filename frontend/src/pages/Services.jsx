@@ -1,9 +1,26 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { services } from '../data/content';
-import { ArrowUpRight } from 'lucide-react';
+import { services as staticServices } from '../data/content';
+import { ArrowUpRight, Wrench } from 'lucide-react';
 import Button from '../components/ui/Button';
+import axios from 'axios';
 
 const Services = () => {
+    const [services, setServices] = useState(staticServices);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/content/services');
+                if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+                    setServices(res.data);
+                }
+            } catch (err) {
+                console.error("Failed to fetch services", err);
+            }
+        };
+        fetchServices();
+    }, []);
     return (
         <div className="bg-[#050505] min-h-screen">
             <section className="relative py-32 bg-black overflow-hidden">
@@ -53,7 +70,7 @@ const Services = () => {
                                     >
                                         <div className="absolute inset-0 bg-neon-blue/10 mix-blend-overlay z-10"></div>
                                         <img
-                                            src={service.id === 'construction' ? '/construction_site.png' : service.id === 'mechanical' ? '/industrial_pipes.png' : '/project_management.png'}
+                                            src={service.image || (service.id === 'construction' ? '/construction_site.png' : service.id === 'mechanical' ? '/industrial_pipes.png' : '/project_management.png')}
                                             alt={service.title}
                                             className="w-full h-full object-cover hover:scale-110 transition-transform duration-1000 grayscale hover:grayscale-0"
                                         />
@@ -63,17 +80,17 @@ const Services = () => {
                                 <div className="md:w-1/2 p-8">
                                     <div className="flex items-center gap-4 mb-6">
                                         <div className="p-3 border border-neon-blue/30 bg-neon-blue/10 rounded text-neon-blue">
-                                            <service.icon size={28} />
+                                            {service.icon && typeof service.icon !== 'string' ? <service.icon size={28} /> : <Wrench size={28} />}
                                         </div>
                                         <h2 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-wider">{service.title}</h2>
                                     </div>
 
                                     <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                                        {service.description}
+                                        {service.description || service.desc}
                                     </p>
 
                                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                                        {service.details.map((detail, idx) => (
+                                        {(service.details || []).map((detail, idx) => (
                                             <li key={idx} className="flex items-center gap-3 text-sm text-gray-300">
                                                 <div className="w-1.5 h-1.5 bg-neon-blue rounded-full"></div>
                                                 {detail}

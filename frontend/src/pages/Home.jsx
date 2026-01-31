@@ -1,10 +1,50 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Zap, Box, Layers, Globe } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
-import { companyData, services, whyChooseUs } from '../data/content';
+import { companyData as staticCompanyData, services as staticServices, whyChooseUs as staticWhy } from '../data/content';
+import axios from 'axios';
 
 const Home = () => {
+    const [companyData, setCompanyData] = useState(staticCompanyData);
+    const [services, setServices] = useState(staticServices);
+    const [whyChooseUs, setWhyChooseUs] = useState(staticWhy);
+
+    useEffect(() => {
+        const fetchHomeData = async () => {
+            try {
+                const [compRes, servRes, whyRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/content/companyData'),
+                    axios.get('http://localhost:5000/api/content/services'),
+                    axios.get('http://localhost:5000/api/content/whyChooseUs')
+                ]);
+
+                if (compRes.data && Object.keys(compRes.data).length > 0) {
+                    const d = compRes.data;
+                    setCompanyData({
+                        ...staticCompanyData,
+                        ...d,
+                        contact: {
+                            ...staticCompanyData.contact,
+                            phone: d.phone || staticCompanyData.contact.phone,
+                            email: d.email || staticCompanyData.contact.email,
+                            address: d.address || staticCompanyData.contact.address,
+                        }
+                    });
+                }
+                if (servRes.data && Array.isArray(servRes.data) && servRes.data.length > 0) {
+                    setServices(servRes.data);
+                }
+                if (whyRes.data && Array.isArray(whyRes.data) && whyRes.data.length > 0) {
+                    setWhyChooseUs(whyRes.data);
+                }
+            } catch (err) {
+                console.error("Home data fetch failed", err);
+            }
+        };
+        fetchHomeData();
+    }, []);
     return (
         <div className="w-full overflow-hidden bg-[#050505]">
             {/* Hero Section */}
@@ -54,7 +94,7 @@ const Home = () => {
                             transition={{ delay: 0.2 }}
                             className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto font-light leading-relaxed"
                         >
-                            Lummora Engineering delivers high-precision construction and mechanical solutions for the modern industrial world.
+                            {companyData.description}
                         </motion.p>
 
                         <motion.div
@@ -81,27 +121,31 @@ const Home = () => {
             <section className="py-24 relative">
                 <div className="container-custom">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 -mt-32 relative z-30">
-                        {[
-                            { title: "Construction", icon: Layers, desc: "Industrial & Commercial Infrastructure" },
-                            { title: "Mechanical", icon: Zap, desc: "Pipeline & Fabrication Systems" },
-                            { title: "Management", icon: Globe, desc: "End-to-End Project Execution" },
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 50 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2 + (i * 0.1) }}
-                                className="bg-[#0f0f0f]/90 backdrop-blur-xl p-8 border border-white/10 hover:border-neon-blue/50 transition-all duration-500 group"
-                            >
-                                <div className="w-14 h-14 bg-white/5 rounded-lg flex items-center justify-center text-neon-blue mb-6 group-hover:scale-110 transition-transform">
-                                    <item.icon size={30} />
-                                </div>
-                                <h3 className="text-2xl font-bold text-white mb-2">{item.title}</h3>
-                                <p className="text-gray-400 mb-6">{item.desc}</p>
-                                <div className="h-0.5 w-12 bg-white/10 group-hover:w-full group-hover:bg-neon-blue transition-all duration-500"></div>
-                            </motion.div>
-                        ))}
+                        {services.slice(0, 3).map((item, i) => {
+                            const icons = [Layers, Zap, Globe];
+                            const Icon = icons[i] || Box;
+                            return (
+                                <motion.div
+                                    key={item._id || item.id || i}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.2 + (i * 0.1) }}
+                                    className="bg-[#0f0f0f]/90 backdrop-blur-xl p-8 border border-white/10 hover:border-neon-blue/50 transition-all duration-500 group"
+                                >
+                                    <div className="w-14 h-14 bg-white/5 rounded-lg flex items-center justify-center text-neon-blue mb-6 group-hover:scale-110 transition-transform">
+                                        {item.image ? (
+                                            <img src={item.image} className="w-full h-full object-cover rounded" />
+                                        ) : (
+                                            <Icon size={30} />
+                                        )}
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-white mb-2">{item.title}</h3>
+                                    <p className="text-gray-400 mb-6 line-clamp-2">{item.description || item.desc}</p>
+                                    <div className="h-0.5 w-12 bg-white/10 group-hover:w-full group-hover:bg-neon-blue transition-all duration-500"></div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
 
                     <div className="mt-32 flex flex-col lg:flex-row gap-16 items-center">
@@ -116,7 +160,7 @@ const Home = () => {
                             </p>
 
                             <div className="grid grid-cols-2 gap-8 mb-10">
-                                {companyData.stats.map((stat, i) => (
+                                {Array.isArray(companyData.stats) && companyData.stats.map((stat, i) => (
                                     <div key={i}>
                                         <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
                                         <div className="text-xs text-gray-500 uppercase tracking-wider">{stat.label}</div>
@@ -132,7 +176,7 @@ const Home = () => {
                         <div className="lg:w-1/2 relative">
                             <div className="absolute inset-0 bg-neon-blue/20 blur-[100px] -z-10"></div>
                             <div className="relative border border-white/10 p-2 bg-white/5 backdrop-blur-sm">
-                                <img src="/smart_engineering.png" alt="Engineering" className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700" />
+                                <img src={companyData.heroImage || "/smart_engineering.png"} alt="Engineering" className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700" />
 
                                 {/* Floating Tech Card */}
                                 <motion.div

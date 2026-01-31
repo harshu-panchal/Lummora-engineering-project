@@ -1,63 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/ui/Button';
 import { Filter, ArrowUpRight } from 'lucide-react';
+import { portfolio as staticPortfolio } from '../data/content';
+import axios from 'axios';
 
 const Portfolio = () => {
-    // Enhanced project data with categories
-    const allProjects = [
-        {
-            id: 1,
-            name: "Mega Industrial Complex",
-            category: "Industrial",
-            client: "Global Mfg Corp",
-            location: "Gujarat, India",
-            image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&q=80&w=1000",
-            stats: { area: "500,000 sq.ft", duration: "18 Months" }
-        },
-        {
-            id: 2,
-            name: "City Metro Pipeline",
-            category: "Infrastructure",
-            client: "Metro Rail Corp",
-            location: "Mumbai, India",
-            image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000",
-            stats: { length: "25 km", duration: "24 Months" }
-        },
-        {
-            id: 3,
-            name: "Tech Park One",
-            category: "Commercial",
-            client: "Innovate Builders",
-            location: "Bangalore, India",
-            image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1000",
-            stats: { area: "1M sq.ft", duration: "30 Months" }
-        },
-        {
-            id: 4,
-            name: "Solar Energy Farm",
-            category: "Infrastructure",
-            client: "Green Power Ltd",
-            location: "Rajasthan, India",
-            image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=1000",
-            stats: { capacity: "500 MW", duration: "12 Months" }
-        },
-        {
-            id: 5,
-            name: "Luxury Hotel Tower",
-            category: "Commercial",
-            client: "Grand Hosp. Grp",
-            location: "Delhi, India",
-            image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1000",
-            stats: { floors: "45 Floors", duration: "36 Months" }
-        }
-    ];
-
+    const [projects, setProjects] = useState(staticPortfolio);
     const [filter, setFilter] = useState('All');
 
+    useEffect(() => {
+        const fetchPortfolio = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/content/portfolio');
+                if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+                    setProjects(res.data);
+                }
+            } catch (err) {
+                console.error("Failed to fetch portfolio", err);
+            }
+        };
+        fetchPortfolio();
+    }, []);
+
     const filteredProjects = filter === 'All'
-        ? allProjects
-        : allProjects.filter(p => p.category === filter);
+        ? projects
+        : projects.filter(p => p.category === filter);
 
     const categories = ['All', 'Industrial', 'Infrastructure', 'Commercial'];
 
@@ -97,9 +65,9 @@ const Portfolio = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <AnimatePresence mode="popLayout">
-                            {filteredProjects.map((project) => (
+                            {filteredProjects.map((project, idx) => (
                                 <motion.div
-                                    key={project.id}
+                                    key={project._id || project.id || idx}
                                     layout
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
@@ -137,7 +105,9 @@ const Portfolio = () => {
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span>Scale</span>
-                                                    <span className="font-semibold text-neon-green">{project.stats.area || project.stats.capacity || project.stats.length || project.stats.floors}</span>
+                                                    <span className="font-semibold text-neon-green">
+                                                        {project.stats?.area || project.stats?.capacity || project.stats?.length || project.stats?.floors || 'N/A'}
+                                                    </span>
                                                 </div>
                                             </div>
 

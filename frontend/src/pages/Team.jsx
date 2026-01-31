@@ -1,27 +1,32 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Mail, UserCheck } from 'lucide-react';
+import axios from 'axios';
 
 const Team = () => {
-    const team = [
+    const staticTeam = [
         {
             name: "Amit Verma",
             role: "Managing Director",
             bio: "Over 25 years of experience in civil and mechanical engineering leadership.",
             image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400"
-        },
-        {
-            name: "Suresh Reddy",
-            role: "Chief Engineer",
-            bio: "Expert in structural integrity and ISO safety compliance.",
-            image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400"
-        },
-        {
-            name: "Priya Sharma",
-            role: "Head of Operations",
-            bio: "Specializing in project management, cost estimation, and timely delivery.",
-            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400"
         }
     ];
+    const [team, setTeam] = useState(staticTeam);
+
+    useEffect(() => {
+        const fetchTeam = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/team');
+                if (res.data && res.data.length > 0) {
+                    setTeam(res.data);
+                }
+            } catch (err) {
+                console.error("Failed to fetch team, using fallback", err);
+            }
+        };
+        fetchTeam();
+    }, []);
 
     return (
         <div className="bg-[#050505] min-h-screen text-gray-300">

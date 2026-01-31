@@ -26,6 +26,7 @@ export const services = [
         id: "construction",
         title: "Construction Services",
         icon: HardHat,
+        image: "/modern_building.png",
         description: "We provide comprehensive construction services tailored to meet the needs of modern infrastructure and industrial development.",
         details: [
             "Commercial building construction",
@@ -38,11 +39,12 @@ export const services = [
         id: "mechanical",
         title: "Mechanical Engineering",
         icon: Wrench,
+        image: "/smart_engineering.png",
         description: "Our mechanical engineering expertise ensures efficiency, durability, and compliance with industry standards.",
         details: [
             "Pipeline systems",
             "Blasting and painting",
-            "Piping fabrication and erection", // Added fabrication and erection based on prompt
+            "Piping fabrication and erection",
             "Industrial equipment installation",
             "Maintenance and servicing"
         ]
@@ -51,6 +53,7 @@ export const services = [
         id: "project-management",
         title: "Project Management",
         icon: BarChart3,
+        image: "/cad_design.png",
         description: "Our structured project management approach ensures timely delivery and cost control.",
         details: [
             "Comprehensive project planning",
@@ -66,22 +69,26 @@ export const engineeringExcellence = [
     {
         title: "Advanced Design Capabilities",
         description: "We utilize state-of-the-art CAD and BIM software to develop precise, optimized designs. Advanced simulation tools ensure structural integrity and system efficiency before construction begins.",
-        icon: Component
+        icon: Component,
+        image: "/cad_design.png"
     },
     {
         title: "Industry Compliance",
         description: "All projects strictly adhere to international standards including ISO 9001:2015, ISO 14001, and relevant local building codes and regulations.",
-        icon: ShieldCheck
+        icon: ShieldCheck,
+        image: "/quality_check.png"
     },
     {
         title: "Technical Innovation",
         description: "We continuously invest in emerging technologies, incorporating sustainable practices, energy-efficient systems, and smart building solutions.",
-        icon: Globe
+        icon: Globe,
+        image: "/smart_engineering.png"
     },
     {
         title: "Safety Excellence",
         description: "Our ISO 45001 compliant safety management systems protect our workforce and stakeholders throughout every project phase.",
-        icon: Award
+        icon: Award,
+        image: "/safety_gear.png"
     }
 ];
 
@@ -165,5 +172,53 @@ export const engagementProcess = [
         step: 4,
         title: "Successful Handover",
         description: "Commissioning, final handover, and ongoing maintenance support."
+    }
+];
+
+export const portfolio = [
+    {
+        id: 1,
+        name: "Mega Industrial Complex",
+        category: "Industrial",
+        client: "Global Mfg Corp",
+        location: "Gujarat, India",
+        image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&q=80&w=1000",
+        stats: { area: "500,000 sq.ft", duration: "18 Months" }
+    },
+    {
+        id: 2,
+        name: "City Metro Pipeline",
+        category: "Infrastructure",
+        client: "Metro Rail Corp",
+        location: "Mumbai, India",
+        image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000",
+        stats: { length: "25 km", duration: "24 Months" }
+    },
+    {
+        id: 3,
+        name: "Tech Park One",
+        category: "Commercial",
+        client: "Innovate Builders",
+        location: "Bangalore, India",
+        image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1000",
+        stats: { area: "1M sq.ft", duration: "30 Months" }
+    },
+    {
+        id: 4,
+        name: "Solar Energy Farm",
+        category: "Infrastructure",
+        client: "Green Power Ltd",
+        location: "Rajasthan, India",
+        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=1000",
+        stats: { capacity: "500 MW", duration: "12 Months" }
+    },
+    {
+        id: 5,
+        name: "Luxury Hotel Tower",
+        category: "Commercial",
+        client: "Grand Hosp. Grp",
+        location: "Delhi, India",
+        image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1000",
+        stats: { floors: "45 Floors", duration: "36 Months" }
     }
 ];

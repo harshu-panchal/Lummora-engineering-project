@@ -1,15 +1,40 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { qualityStandards } from '../data/content';
+import { qualityStandards as staticStandards } from '../data/content';
 import { ShieldCheck, Check, HardHat } from 'lucide-react';
+import axios from 'axios';
 
 const QualitySafety = () => {
+    const [qualityStandards, setQualityStandards] = useState(staticStandards);
+    const [companyData, setCompanyData] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [qsRes, cdRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/content/qualityStandards'),
+                    axios.get('http://localhost:5000/api/content/companyData')
+                ]);
+
+                if (qsRes.data && Array.isArray(qsRes.data) && qsRes.data.length > 0) {
+                    setQualityStandards(qsRes.data);
+                }
+                if (cdRes.data) {
+                    setCompanyData(cdRes.data);
+                }
+            } catch (err) {
+                console.error("Quality standards fetch failed", err);
+            }
+        };
+        fetchData();
+    }, []);
     return (
         <div className="bg-[#050505] min-h-screen">
             {/* Hero Split */}
             <section className="relative flex flex-col md:flex-row min-h-[85vh]">
                 <div className="md:w-1/2 relative min-h-[400px] overflow-hidden group">
                     <img
-                        src="/safety_gear.png"
+                        src={companyData.safetyImage || "/safety_gear.png"}
                         alt="Safety Gear"
                         className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
                     />

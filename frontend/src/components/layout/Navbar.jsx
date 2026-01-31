@@ -47,20 +47,7 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2 group">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-neon-blue blur-md opacity-20 group-hover:opacity-50 transition-opacity"></div>
-                        <div className="w-10 h-10 border border-neon-blue/30 bg-black text-neon-blue flex items-center justify-center font-bold text-xl relative z-10 clip-path-hex">
-                            <Zap size={20} fill="currentColor" />
-                        </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="font-heading font-bold text-2xl leading-none tracking-tight text-white group-hover:text-neon-blue transition-colors">
-                            LUMMORA
-                        </span>
-                        <span className="text-[0.6rem] tracking-[0.2em] uppercase text-gray-500">
-                            Engineering
-                        </span>
-                    </div>
+                    <img src="/logo.svg" alt="Lummora Engineering Projects" className="h-20 w-auto object-contain" />
                 </Link>
 
                 {/* Desktop Nav */}

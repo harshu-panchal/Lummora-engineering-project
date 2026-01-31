@@ -1,23 +1,64 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Send } from 'lucide-react';
-import { companyData, engagementProcess } from '../data/content';
+import { companyData as staticCompanyData, engagementProcess as staticProcess } from '../data/content';
 import Button from '../components/ui/Button';
+import axios from 'axios';
 
 const Contact = () => {
-    const handleSubmit = (e) => {
+    const [companyData, setCompanyData] = useState(staticCompanyData);
+    const [engagementProcess, setEngagementProcess] = useState(staticProcess);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [compRes, procRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/content/companyData'),
+                    axios.get('http://localhost:5000/api/content/engagementProcess')
+                ]);
+
+                if (compRes.data && Object.keys(compRes.data).length > 0) {
+                    setCompanyData({ ...staticCompanyData, ...compRes.data });
+                }
+                if (procRes.data && Array.isArray(procRes.data) && procRes.data.length > 0) {
+                    setEngagementProcess(procRes.data);
+                }
+            } catch (err) {
+                console.error("Contact data fetch failed", err);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: 'General Inquiry',
+        message: ''
+    });
+    const [status, setStatus] = useState('');
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setStatus('Transmitting...');
 
-        const btn = e.target.querySelector('button');
-        const originalText = btn.innerText;
-        btn.innerText = 'Transmitting...';
-
-        setTimeout(() => {
-            alert(`DATA TRANSMITTED SUCCESSFULLY.`);
-            btn.innerText = 'Sent';
-            e.target.reset();
-            setTimeout(() => btn.innerText = originalText, 3000);
-        }, 1500);
+        try {
+            await axios.post('http://localhost:5000/api/contact', formData);
+            setStatus('Sent');
+            alert(`MESSAGE TRANSMITTED TO ADMIN: wazahatqureshi4@gmail.com`);
+            setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
+            setTimeout(() => setStatus(''), 3000);
+        } catch (err) {
+            console.error(err);
+            setStatus('Error');
+            const errorMsg = err.response?.data?.message || 'Failed to send message. Please check the backend connection.';
+            alert(errorMsg);
+            setTimeout(() => setStatus(''), 3000);
+        }
     };
 
     return (
@@ -80,6 +121,9 @@ const Contact = () => {
                                     <label className="text-xs font-bold text-neon-blue uppercase tracking-widest">Full Name</label>
                                     <input
                                         type="text"
+                                        id="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-black border border-white/10 text-white focus:border-neon-blue focus:shadow-[0_0_10px_rgba(0,243,255,0.2)] outline-none transition-all placeholder:text-gray-700"
                                         placeholder="Identification"
                                         required
@@ -89,6 +133,9 @@ const Contact = () => {
                                     <label className="text-xs font-bold text-neon-blue uppercase tracking-widest">Email Address</label>
                                     <input
                                         type="email"
+                                        id="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-black border border-white/10 text-white focus:border-neon-blue focus:shadow-[0_0_10px_rgba(0,243,255,0.2)] outline-none transition-all placeholder:text-gray-700"
                                         placeholder="username@domain.com"
                                         required
@@ -98,7 +145,12 @@ const Contact = () => {
 
                             <div className="space-y-2 group">
                                 <label className="text-xs font-bold text-neon-blue uppercase tracking-widest">Subject Protocol</label>
-                                <select className="w-full px-4 py-3 bg-black border border-white/10 text-gray-400 focus:text-white focus:border-neon-blue outline-none transition-all appearance-none cursor-pointer">
+                                <select
+                                    id="subject"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-3 bg-black border border-white/10 text-gray-400 focus:text-white focus:border-neon-blue outline-none transition-all appearance-none cursor-pointer"
+                                >
                                     <option>General Inquiry</option>
                                     <option>Project Proposal</option>
                                     <option>Careers</option>
@@ -109,7 +161,10 @@ const Contact = () => {
                             <div className="space-y-2 group">
                                 <label className="text-xs font-bold text-neon-blue uppercase tracking-widest">Message Data</label>
                                 <textarea
+                                    id="message"
                                     rows="6"
+                                    value={formData.message}
+                                    onChange={handleChange}
                                     className="w-full px-4 py-3 bg-black border border-white/10 text-white focus:border-neon-blue focus:shadow-[0_0_10px_rgba(0,243,255,0.2)] outline-none transition-all resize-none placeholder:text-gray-700"
                                     placeholder="Input requirements..."
                                     required
@@ -117,7 +172,7 @@ const Contact = () => {
                             </div>
 
                             <Button variant="primary" className="w-full md:w-auto px-12 py-4 text-lg border border-neon-blue/20">
-                                Transmit Message <Send size={18} className="ml-2" />
+                                {status || 'Transmit Message'} <Send size={18} className="ml-2" />
                             </Button>
                         </form>
                     </div>

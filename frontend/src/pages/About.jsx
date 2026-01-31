@@ -1,9 +1,26 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Target, Eye, Shield, Users, ArrowRight } from 'lucide-react';
-import { companyData } from '../data/content';
+import { companyData as staticCompanyData } from '../data/content';
 import Button from '../components/ui/Button';
+import axios from 'axios';
 
 const About = () => {
+    const [companyData, setCompanyData] = useState(staticCompanyData);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/content/companyData');
+                if (res.data && Object.keys(res.data).length > 0) {
+                    setCompanyData({ ...staticCompanyData, ...res.data });
+                }
+            } catch (err) {
+                console.error("About data fetch failed", err);
+            }
+        };
+        fetchData();
+    }, []);
     return (
         <div className="bg-[#050505] min-h-screen text-gray-300">
             {/* Hero Section */}
@@ -80,7 +97,7 @@ const About = () => {
                         <div className="lg:w-1/2 relative">
                             <div className="absolute -inset-1 bg-gradient-to-r from-neon-blue via-purple-500 to-neon-green opacity-30 blur-xl"></div>
                             <div className="relative rounded-sm overflow-hidden border border-white/10 bg-black">
-                                <img src="/construction_site.png" alt="Construction Site" className="w-full h-full object-cover opacity-80" />
+                                <img src={companyData.aboutImage || "/construction_site.png"} alt="Construction Site" className="w-full h-full object-cover opacity-80" />
                                 <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/90 to-transparent border-t border-white/10">
                                     <div className="flex items-center gap-4">
                                         <Shield className="text-neon-blue" size={48} />

@@ -13,6 +13,10 @@ import SuccessStories from './pages/SuccessStories';
 import WhyChooseUs from './pages/WhyChooseUs';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/layout/ScrollToTop';
+import Login from './pages/admin/Login';
+import Dashboard from './pages/admin/Dashboard';
+import ContentManager from './pages/admin/ContentManager';
+import TeamManager from './pages/admin/TeamManager';
 
 // Page Transition Component
 const PageTransition = ({ children }) => {
@@ -31,26 +35,37 @@ const PageTransition = ({ children }) => {
 function App() {
   const location = useLocation();
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <>
       <ScrollToTop />
-      <Layout>
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-            <Route path="/about" element={<PageTransition><About /></PageTransition>} />
-            <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
-            <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
-            <Route path="/team" element={<PageTransition><Team /></PageTransition>} />
-            <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
-            <Route path="/engineering-excellence" element={<PageTransition><EngineeringExcellence /></PageTransition>} />
-            <Route path="/quality-safety" element={<PageTransition><QualitySafety /></PageTransition>} />
-            <Route path="/success-stories" element={<PageTransition><SuccessStories /></PageTransition>} />
-            <Route path="/why-choose-us" element={<PageTransition><WhyChooseUs /></PageTransition>} />
-            <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
-          </Routes>
-        </AnimatePresence>
-      </Layout>
+      {isAdminRoute ? (
+        <Routes>
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/content" element={<ContentManager />} />
+          <Route path="/admin/team" element={<TeamManager />} />
+        </Routes>
+      ) : (
+        <Layout>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+              <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+              <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
+              <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
+              <Route path="/team" element={<PageTransition><Team /></PageTransition>} />
+              <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+              <Route path="/engineering-excellence" element={<PageTransition><EngineeringExcellence /></PageTransition>} />
+              <Route path="/quality-safety" element={<PageTransition><QualitySafety /></PageTransition>} />
+              <Route path="/success-stories" element={<PageTransition><SuccessStories /></PageTransition>} />
+              <Route path="/why-choose-us" element={<PageTransition><WhyChooseUs /></PageTransition>} />
+              <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+            </Routes>
+          </AnimatePresence>
+        </Layout>
+      )}
     </>
   );
 }
