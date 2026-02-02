@@ -46,8 +46,12 @@ const Navbar = () => {
                 <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-neon-blue to-transparent transition-all duration-500 ${scrolled ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
 
                 {/* Logo */}
-                <Link to="/" className="flex items-center gap-2 group">
-                    <img src="/logo.svg" alt="Lummora Engineering Projects" className="h-20 w-auto object-contain" />
+                <Link to="/" className="flex items-center group">
+                    <img
+                        src="/logo.svg"
+                        alt="Lummora Engineering Projects"
+                        className="h-12 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
                 </Link>
 
                 {/* Desktop Nav */}
