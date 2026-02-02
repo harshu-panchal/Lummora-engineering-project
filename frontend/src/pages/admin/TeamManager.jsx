@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../api';
 import { Plus, Trash2, Save, User, CheckCircle, AlertCircle } from 'lucide-react';
 import Button from '../../components/ui/Button';
 
@@ -15,7 +16,7 @@ const TeamManager = () => {
 
     const fetchTeam = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/team');
+            const res = await axios.get(`${API_BASE_URL}/api/team`);
             setTeam(res.data);
         } catch (err) {
             console.error(err);
@@ -29,7 +30,7 @@ const TeamManager = () => {
     const removeMember = async (id, index) => {
         if (id) {
             try {
-                await axios.delete(`http://localhost:5000/api/team/${id}`);
+                await axios.delete(`${API_BASE_URL}/api/team/${id}`);
             } catch (err) { console.error(err); }
         }
         const newTeam = [...team];
@@ -41,7 +42,7 @@ const TeamManager = () => {
         setLoading(true);
         setStatus({ type: 'info', msg: 'Synchronizing Team...' });
         try {
-            const res = await axios.post('http://localhost:5000/api/team/sync', team);
+            const res = await axios.post(`${API_BASE_URL}/api/team/sync`, team);
             setTeam(res.data);
             setStatus({ type: 'success', msg: 'Team Synchronized' });
             setTimeout(() => setStatus({ type: '', msg: '' }), 3000);
@@ -66,7 +67,7 @@ const TeamManager = () => {
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const res = await axios.post('http://localhost:5000/api/upload', formData, {
+            const res = await axios.post(`${API_BASE_URL}/api/upload`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             console.log("Team Member Image Uploaded:", res.data.url);

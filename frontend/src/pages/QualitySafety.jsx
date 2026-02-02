@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { qualityStandards as staticStandards } from '../data/content';
 import { ShieldCheck, Check, HardHat } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const QualitySafety = () => {
     const [qualityStandards, setQualityStandards] = useState(staticStandards);
@@ -12,8 +13,8 @@ const QualitySafety = () => {
         const fetchData = async () => {
             try {
                 const [qsRes, cdRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/content/qualityStandards'),
-                    axios.get('http://localhost:5000/api/content/companyData')
+                    axios.get(`${API_BASE_URL}/api/content/qualityStandards`),
+                    axios.get(`${API_BASE_URL}/api/content/companyData`)
                 ]);
 
                 if (qsRes.data && Array.isArray(qsRes.data) && qsRes.data.length > 0) {

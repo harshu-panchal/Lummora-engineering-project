@@ -4,6 +4,7 @@ import Button from '../components/ui/Button';
 import { Filter, ArrowUpRight } from 'lucide-react';
 import { portfolio as staticPortfolio } from '../data/content';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Portfolio = () => {
     const [projects, setProjects] = useState(staticPortfolio);
@@ -12,7 +13,7 @@ const Portfolio = () => {
     useEffect(() => {
         const fetchPortfolio = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/content/portfolio');
+                const res = await axios.get(`${API_BASE_URL}/api/content/portfolio`);
                 if (res.data && Array.isArray(res.data) && res.data.length > 0) {
                     setProjects(res.data);
                 }

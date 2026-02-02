@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Linkedin, ArrowRight } from 'lucide-react';
 import { companyData as staticCompanyData, services as staticServices } from '../../data/content';
 import axios from 'axios';
+import { API_BASE_URL } from '../../api';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const compRes = await axios.get('http://localhost:5000/api/content/companyData');
+                const compRes = await axios.get(`${API_BASE_URL}/api/content/companyData`);
                 if (compRes.data && Object.keys(compRes.data).length > 0) {
                     // Normalize backend structure to match expected frontend structure if needed
                     const d = compRes.data;
@@ -29,7 +30,7 @@ const Footer = () => {
                     });
                 }
 
-                const servRes = await axios.get('http://localhost:5000/api/content/services');
+                const servRes = await axios.get(`${API_BASE_URL}/api/content/services`);
                 if (servRes.data && Array.isArray(servRes.data)) {
                     setServices(servRes.data);
                 }

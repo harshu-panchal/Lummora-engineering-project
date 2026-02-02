@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../api';
 import { Save, AlertCircle, CheckCircle, Box } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import * as staticContent from '../../data/content';
@@ -29,7 +30,7 @@ const ContentManager = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:5000/api/content/${activeSection}`);
+            const res = await axios.get(`${API_BASE_URL}/api/content/${activeSection}`);
             let dbData = res.data;
             const staticSection = staticContent[activeSection];
 
@@ -85,7 +86,7 @@ const ContentManager = () => {
 
         setLoading(true);
         try {
-            await axios.post(`http://localhost:5000/api/content/${activeSection}`, cleanData);
+            await axios.post(`${API_BASE_URL}/api/content/${activeSection}`, cleanData);
             setStatus({ type: 'success', msg: 'Deployed to Live Site' });
             setTimeout(() => setStatus({ type: '', msg: '' }), 3000);
         } catch (err) {
@@ -105,7 +106,7 @@ const ContentManager = () => {
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const res = await axios.post('http://localhost:5000/api/upload', formData, {
+            const res = await axios.post(`${API_BASE_URL}/api/upload`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             const imageUrl = res.data.url;

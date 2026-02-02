@@ -5,6 +5,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import { companyData as staticCompanyData, services as staticServices, whyChooseUs as staticWhy } from '../data/content';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Home = () => {
     const [companyData, setCompanyData] = useState(staticCompanyData);
@@ -15,9 +16,9 @@ const Home = () => {
         const fetchHomeData = async () => {
             try {
                 const [compRes, servRes, whyRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/content/companyData'),
-                    axios.get('http://localhost:5000/api/content/services'),
-                    axios.get('http://localhost:5000/api/content/whyChooseUs')
+                    axios.get(`${API_BASE_URL}/api/content/companyData`),
+                    axios.get(`${API_BASE_URL}/api/content/services`),
+                    axios.get(`${API_BASE_URL}/api/content/whyChooseUs`)
                 ]);
 
                 if (compRes.data && Object.keys(compRes.data).length > 0) {

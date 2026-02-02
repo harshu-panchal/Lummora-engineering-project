@@ -4,6 +4,7 @@ import { services as staticServices } from '../data/content';
 import { ArrowUpRight, Wrench } from 'lucide-react';
 import Button from '../components/ui/Button';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Services = () => {
     const [services, setServices] = useState(staticServices);
@@ -11,7 +12,7 @@ const Services = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/content/services');
+                const res = await axios.get(`${API_BASE_URL}/api/content/services`);
                 if (res.data && Array.isArray(res.data) && res.data.length > 0) {
                     setServices(res.data);
                 }

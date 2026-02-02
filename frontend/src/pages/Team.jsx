@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Mail, UserCheck } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Team = () => {
     const staticTeam = [
@@ -17,7 +18,7 @@ const Team = () => {
     useEffect(() => {
         const fetchTeam = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/team');
+                const res = await axios.get(`${API_BASE_URL}/api/team`);
                 if (res.data && res.data.length > 0) {
                     setTeam(res.data);
                 }
