@@ -35,28 +35,23 @@ const Navbar = () => {
 
     return (
         <header
-            className={`fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent ${scrolled
-                ? 'bg-[#050505]/80 backdrop-blur-md border-white/10 py-3'
-                : 'bg-transparent py-6'
+            className={`fixed top-0 w-full z-50 transition-all duration-500 border-b bg-white/90 backdrop-blur-xl border-slate-200/60 ${scrolled
+                ? 'shadow-md py-2'
+                : 'shadow-sm py-4'
                 }`}
         >
             <div className="container-custom flex justify-between items-center relative">
 
-                {/* Neon Glow Line on Scroll */}
-                <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-neon-blue to-transparent transition-all duration-500 ${scrolled ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+
 
                 {/* Logo */}
-                <Link to="/" className="flex items-center group">
-                    <img
-                        src="/logo.svg"
-                        alt="Lummora Engineering Projects"
-                        className="h-12 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                    />
+                <Link to="/" className="flex items-center gap-2 group">
+                    <img src="/logo.svg" alt="Lummora Engineering Projects" className="h-20 w-auto object-contain" />
                 </Link>
 
                 {/* Desktop Nav */}
                 <nav className="hidden lg:flex items-center gap-1">
-                    <div className="flex bg-white/5 rounded-full px-2 py-1 border border-white/5 backdrop-blur-sm mr-4">
+                    <div className="flex bg-black/5 rounded-full px-2 py-1 border border-black/5 backdrop-blur-sm mr-4">
                         {navLinks.map((link) => {
                             const isActive = location.pathname === link.path;
                             return (
@@ -73,7 +68,7 @@ const Navbar = () => {
                                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                         />
                                     )}
-                                    <span className={`relative z-10 ${isActive ? 'text-neon-blue' : 'text-gray-400 hover:text-white'}`}>
+                                    <span className={`relative z-10 ${isActive ? 'text-lummora-700' : 'text-slate-600 hover:text-black'}`}>
                                         {link.name}
                                     </span>
                                 </Link>
@@ -92,7 +87,7 @@ const Navbar = () => {
 
                 {/* Mobile Toggle */}
                 <button
-                    className="lg:hidden text-white hover:text-neon-blue transition-colors"
+                    className="lg:hidden text-gray-800 hover:text-neon-blue transition-colors"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -106,7 +101,7 @@ const Navbar = () => {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="lg:hidden bg-black border-b border-white/10 overflow-hidden"
+                        className="lg:hidden bg-white border-b border-gray-200 overflow-hidden"
                     >
                         <div className="container-custom py-6 flex flex-col gap-2">
                             {navLinks.map((link) => (
@@ -114,8 +109,8 @@ const Navbar = () => {
                                     key={link.name}
                                     to={link.path}
                                     className={`text-lg font-medium py-3 px-4 rounded-md border-l-2 ${location.pathname === link.path
-                                        ? 'border-neon-blue text-neon-blue bg-neon-blue/5'
-                                        : 'border-transparent text-gray-400'
+                                        ? 'border-lummora-600 text-lummora-700 bg-lummora-50'
+                                        : 'border-transparent text-slate-600'
                                         }`}
                                 >
                                     {link.name}

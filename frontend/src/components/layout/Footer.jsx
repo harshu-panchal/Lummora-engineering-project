@@ -47,7 +47,7 @@ const Footer = () => {
                     {/* Brand */}
                     <div className="space-y-6">
                         <div className="flex flex-col">
-                            <div className="inline-block w-fit">
+                            <div className="bg-white p-2 rounded-sm shadow-md inline-block w-fit">
                                 <img src="/logo.svg" alt="Lummora Logo" className="h-16 w-auto object-contain" />
                             </div>
                         </div>
