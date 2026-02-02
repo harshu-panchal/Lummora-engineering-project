@@ -4,6 +4,7 @@ import Button from '../components/ui/Button';
 import { Filter, ArrowUpRight } from 'lucide-react';
 import { portfolio as staticPortfolio } from '../data/content';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Portfolio = () => {
     const [projects, setProjects] = useState(staticPortfolio);

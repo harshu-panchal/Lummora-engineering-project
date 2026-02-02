@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Mail, UserCheck } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Team = () => {
     const staticTeam = [

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Linkedin, ArrowRight } from 'lucide-react';
 import { companyData as staticCompanyData, services as staticServices } from '../../data/content';
 import axios from 'axios';
+import { API_BASE_URL } from '../../api';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();

@@ -5,6 +5,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import { companyData as staticCompanyData, services as staticServices, whyChooseUs as staticWhy } from '../data/content';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Home = () => {
     const [companyData, setCompanyData] = useState(staticCompanyData);

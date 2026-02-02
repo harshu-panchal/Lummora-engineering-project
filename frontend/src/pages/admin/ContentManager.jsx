@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../api';
 import { Save, AlertCircle, CheckCircle, Box } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import * as staticContent from '../../data/content';

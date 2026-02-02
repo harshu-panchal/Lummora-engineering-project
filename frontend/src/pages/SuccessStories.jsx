@@ -4,6 +4,7 @@ import { testimonials as staticTestimonials } from '../data/content';
 import { Quote, Star, ArrowRight, Trophy } from 'lucide-react';
 import Button from '../components/ui/Button';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const SuccessStories = () => {
     const [testimonials, setTestimonials] = useState(staticTestimonials);

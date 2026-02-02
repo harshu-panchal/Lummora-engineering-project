@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { qualityStandards as staticStandards } from '../data/content';
 import { ShieldCheck, Check, HardHat } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const QualitySafety = () => {
     const [qualityStandards, setQualityStandards] = useState(staticStandards);

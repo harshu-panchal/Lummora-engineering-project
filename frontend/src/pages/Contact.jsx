@@ -4,6 +4,7 @@ import { MapPin, Phone, Mail, Send } from 'lucide-react';
 import { companyData as staticCompanyData, engagementProcess as staticProcess } from '../data/content';
 import Button from '../components/ui/Button';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const Contact = () => {
     const [companyData, setCompanyData] = useState(staticCompanyData);
