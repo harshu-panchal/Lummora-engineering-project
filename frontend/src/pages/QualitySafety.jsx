@@ -12,8 +12,8 @@ const QualitySafety = () => {
         const fetchData = async () => {
             try {
                 const [qsRes, cdRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/content/qualityStandards'),
-                    axios.get('http://localhost:5000/api/content/companyData')
+                    axios.get(`${API_BASE_URL}/api/content/qualityStandards`),
+                    axios.get(`${API_BASE_URL}/api/content/companyData`)
                 ]);
 
                 if (qsRes.data && Array.isArray(qsRes.data) && qsRes.data.length > 0) {

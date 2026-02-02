@@ -13,8 +13,8 @@ const Contact = () => {
         const fetchData = async () => {
             try {
                 const [compRes, procRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/content/companyData'),
-                    axios.get('http://localhost:5000/api/content/engagementProcess')
+                    axios.get(`${API_BASE_URL}/api/content/companyData`),
+                    axios.get(`${API_BASE_URL}/api/content/engagementProcess`)
                 ]);
 
                 if (compRes.data && Object.keys(compRes.data).length > 0) {
@@ -47,7 +47,7 @@ const Contact = () => {
         setStatus('Transmitting...');
 
         try {
-            await axios.post('http://localhost:5000/api/contact', formData);
+            await axios.post(`${API_BASE_URL}/api/contact`, formData);
             setStatus('Sent');
             alert(`MESSAGE TRANSMITTED TO ADMIN: wazahatqureshi4@gmail.com`);
             setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { engineeringExcellence } from '../data/content';
 import { Cpu, CheckCircle, Zap } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const EngineeringExcellence = () => {
     const [data, setData] = useState(engineeringExcellence);
@@ -10,7 +11,7 @@ const EngineeringExcellence = () => {
     useEffect(() => {
         const fetchExcellence = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/content/engineeringExcellence');
+                const res = await axios.get(`${API_BASE_URL}/api/content/engineeringExcellence`);
                 if (res.data && Array.isArray(res.data) && res.data.length > 0) {
                     setData(res.data);
                 }

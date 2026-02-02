@@ -13,8 +13,8 @@ const SuccessStories = () => {
         const fetchData = async () => {
             try {
                 const [testRes, cdRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/content/testimonials'),
-                    axios.get('http://localhost:5000/api/content/companyData')
+                    axios.get(`${API_BASE_URL}/api/content/testimonials`),
+                    axios.get(`${API_BASE_URL}/api/content/companyData`)
                 ]);
 
                 if (testRes.data && Array.isArray(testRes.data) && testRes.data.length > 0) {

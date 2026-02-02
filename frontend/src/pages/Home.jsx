@@ -15,9 +15,9 @@ const Home = () => {
         const fetchHomeData = async () => {
             try {
                 const [compRes, servRes, whyRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/content/companyData'),
-                    axios.get('http://localhost:5000/api/content/services'),
-                    axios.get('http://localhost:5000/api/content/whyChooseUs')
+                    axios.get(`${API_BASE_URL}/api/content/companyData`),
+                    axios.get(`${API_BASE_URL}/api/content/services`),
+                    axios.get(`${API_BASE_URL}/api/content/whyChooseUs`)
                 ]);
 
                 if (compRes.data && Object.keys(compRes.data).length > 0) {

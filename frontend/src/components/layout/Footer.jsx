@@ -12,7 +12,7 @@ const Footer = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const compRes = await axios.get('http://localhost:5000/api/content/companyData');
+                const compRes = await axios.get(`${API_BASE_URL}/api/content/companyData`);
                 if (compRes.data && Object.keys(compRes.data).length > 0) {
                     // Normalize backend structure to match expected frontend structure if needed
                     const d = compRes.data;
@@ -29,7 +29,7 @@ const Footer = () => {
                     });
                 }
 
-                const servRes = await axios.get('http://localhost:5000/api/content/services');
+                const servRes = await axios.get(`${API_BASE_URL}/api/content/services`);
                 if (servRes.data && Array.isArray(servRes.data)) {
                     setServices(servRes.data);
                 }

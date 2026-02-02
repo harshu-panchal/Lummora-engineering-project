@@ -4,6 +4,7 @@ import { Target, Eye, Shield, Users, ArrowRight } from 'lucide-react';
 import { companyData as staticCompanyData } from '../data/content';
 import Button from '../components/ui/Button';
 import axios from 'axios';
+import { API_BASE_URL } from '../api';
 
 const About = () => {
     const [companyData, setCompanyData] = useState(staticCompanyData);
@@ -11,7 +12,7 @@ const About = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/content/companyData');
+                const res = await axios.get(`${API_BASE_URL}/api/content/companyData`);
                 if (res.data && Object.keys(res.data).length > 0) {
                     setCompanyData({ ...staticCompanyData, ...res.data });
                 }

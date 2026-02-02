@@ -12,7 +12,7 @@ const Portfolio = () => {
     useEffect(() => {
         const fetchPortfolio = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/content/portfolio');
+                const res = await axios.get(`${API_BASE_URL}/api/content/portfolio`);
                 if (res.data && Array.isArray(res.data) && res.data.length > 0) {
                     setProjects(res.data);
                 }
