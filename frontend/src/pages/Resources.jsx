@@ -83,7 +83,7 @@ const Resources = () => {
                             Join the Lummora ecosystem and access a wide range of industrial resources.
                         </p>
                         <div className="flex justify-center">
-                            <Button to="/contact" className="px-12 py-4 bg-cyan-600 hover:bg-cyan-700">Visit Website</Button>
+                            <Button to="https://www.hirexo.in/" className="px-12 py-4 bg-cyan-600 hover:bg-cyan-700">Visit Website</Button>
                         </div>
                     </div>
                 </motion.div>
