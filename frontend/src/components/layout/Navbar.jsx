@@ -30,6 +30,7 @@ const Navbar = () => {
         { name: 'Portfolio', path: '/portfolio' },
         { name: 'Team', path: '/team' },
         { name: 'Quality & Safety', path: '/quality-safety' },
+        { name: 'HireXO', path: '/hirexo' },
         { name: 'Contact', path: '/contact' },
     ];
 
@@ -68,8 +69,20 @@ const Navbar = () => {
                                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                         />
                                     )}
-                                    <span className={`relative z-10 ${isActive ? 'text-lummora-700' : 'text-slate-600 hover:text-black'}`}>
-                                        {link.name}
+                                    <span className={`relative z-10 transition-all duration-300 ${isActive ? 'text-lummora-700' : 'text-slate-600 hover:text-black'}`}>
+                                        {link.name === 'HireXO' ? (
+                                            <motion.span
+                                                animate={{
+                                                    scale: [1, 1.05, 1],
+                                                    filter: ["drop-shadow(0 0 0px rgba(20,184,166,0))", "drop-shadow(0 0 8px rgba(20,184,166,0.5))", "drop-shadow(0 0 0px rgba(20,184,166,0))"]
+                                                }}
+                                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                                className="bg-gradient-to-r from-lummora-600 to-neon-blue bg-clip-text text-transparent font-bold inline-flex items-center gap-1"
+                                            >
+                                                <Zap size={14} className="text-lummora-500 fill-lummora-500/20" />
+                                                {link.name}
+                                            </motion.span>
+                                        ) : link.name}
                                     </span>
                                 </Link>
                             );
@@ -108,12 +121,21 @@ const Navbar = () => {
                                 <Link
                                     key={link.name}
                                     to={link.path}
-                                    className={`text-lg font-medium py-3 px-4 rounded-md border-l-2 ${location.pathname === link.path
+                                    className={`text-lg font-medium py-3 px-4 rounded-md border-l-2 flex justify-between items-center ${location.pathname === link.path
                                         ? 'border-lummora-600 text-lummora-700 bg-lummora-50'
                                         : 'border-transparent text-slate-600'
                                         }`}
                                 >
-                                    {link.name}
+                                    <span>{link.name}</span>
+                                    {link.name === 'HireXO' && (
+                                        <motion.span
+                                            animate={{ opacity: [0.5, 1, 0.5] }}
+                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                            className="bg-lummora-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter"
+                                        >
+                                            Featured
+                                        </motion.span>
+                                    )}
                                 </Link>
                             ))}
                             <Button to="/contact" className="w-full mt-4 justify-center">
