@@ -83,7 +83,7 @@ const Employee = () => {
                             Create your account today and gain immediate access to the Lummora Engineering network.
                         </p>
                         <div className="flex justify-center">
-                            <Button className="px-12 py-4">Visit Website</Button>
+                            <Button to="/contact" className="px-12 py-4">Visit Website</Button>
                         </div>
                     </div>
                 </motion.div>

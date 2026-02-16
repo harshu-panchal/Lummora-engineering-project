@@ -83,7 +83,7 @@ const Employer = () => {
                             Connect with our talent partners and start building your dream team today.
                         </p>
                         <div className="flex justify-center">
-                            <Button className="px-12 py-4 bg-emerald-600 hover:bg-emerald-700">Visit Website</Button>
+                            <Button to="/contact" className="px-12 py-4 bg-emerald-600 hover:bg-emerald-700">Visit Website</Button>
                         </div>
                     </div>
                 </motion.div>
