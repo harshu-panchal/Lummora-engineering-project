@@ -11,6 +11,10 @@ import EngineeringExcellence from './pages/EngineeringExcellence';
 import QualitySafety from './pages/QualitySafety';
 import SuccessStories from './pages/SuccessStories';
 import WhyChooseUs from './pages/WhyChooseUs';
+import HireXO from './pages/HireXO';
+import Employee from './pages/Employee';
+import Employer from './pages/Employer';
+import Resources from './pages/Resources';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/layout/ScrollToTop';
 import Login from './pages/admin/Login';
@@ -59,6 +63,10 @@ function App() {
               <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
               <Route path="/engineering-excellence" element={<PageTransition><EngineeringExcellence /></PageTransition>} />
               <Route path="/quality-safety" element={<PageTransition><QualitySafety /></PageTransition>} />
+              <Route path="/hirexo" element={<PageTransition><HireXO /></PageTransition>} />
+              <Route path="/employee" element={<PageTransition><Employee /></PageTransition>} />
+              <Route path="/employer" element={<PageTransition><Employer /></PageTransition>} />
+              <Route path="/resources" element={<PageTransition><Resources /></PageTransition>} />
               <Route path="/success-stories" element={<PageTransition><SuccessStories /></PageTransition>} />
               <Route path="/why-choose-us" element={<PageTransition><WhyChooseUs /></PageTransition>} />
               <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

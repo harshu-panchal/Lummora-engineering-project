@@ -13,12 +13,14 @@ const Button = ({ children, variant = 'primary', className, to, onClick, ...prop
         ghost: "text-lummora-700 hover:bg-lummora-50 hover:text-lummora-900"
     };
 
-    const Component = to ? Link : motion.button;
+    const isExternal = typeof to === 'string' && (to.startsWith('http') || to.startsWith('//'));
+    const Component = to ? (isExternal ? 'a' : Link) : motion.button;
     const motionProps = to ? {} : { whileHover: { scale: 1.02 }, whileTap: { scale: 0.98 } };
+    const linkProps = isExternal ? { href: to, target: "_blank", rel: "noopener noreferrer" } : { to };
 
     return (
         <Component
-            to={to}
+            {...linkProps}
             onClick={onClick}
             className={clsx(baseStyles, variants[variant], className)}
             {...motionProps}
