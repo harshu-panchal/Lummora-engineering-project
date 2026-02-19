@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multerCloudinary = require('multer-storage-cloudinary');
+const CloudinaryStorage = multerCloudinary.CloudinaryStorage || multerCloudinary;
 const multer = require('multer');
 
 // Cloudinary Configuration
@@ -28,10 +29,9 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors({
-    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, "") : 'http://localhost:5173',
     origin: (origin, callback) => {
         const allowedOrigins = [
-            process.env.FRONTEND_URL,
+            process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, "") : null,
             'http://localhost:5173',
             'https://lummora-engineering-project.vercel.app'
         ].filter(Boolean);
