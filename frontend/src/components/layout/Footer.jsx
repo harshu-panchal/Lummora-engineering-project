@@ -72,6 +72,8 @@ const Footer = () => {
                                 { name: 'Portfolio', path: '/portfolio' },
                                 { name: 'Success Stories', path: '/success-stories' },
                                 { name: 'Contact', path: '/contact' },
+                                { name: 'Privacy Policy', path: '/privacy' },
+                                { name: 'Terms & Conditions', path: '/terms' },
                             ].map((link) => (
                                 <li key={link.name}>
                                     <Link to={link.path} className="text-gray-400 hover:text-lummora-300 transition-colors flex items-center gap-2 group">
@@ -122,7 +124,7 @@ const Footer = () => {
                     <p>&copy; {currentYear} {companyData.name}. All rights reserved.</p>
                     <div className="flex gap-8">
                         <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-                        <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                        <Link to="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
                     </div>
                 </div>
             </div>

@@ -15,6 +15,8 @@ import HireXO from './pages/HireXO';
 import Employee from './pages/Employee';
 import Employer from './pages/Employer';
 import Resources from './pages/Resources';
+import LegalPrivacy from './pages/LegalPrivacy';
+import LegalTerms from './pages/LegalTerms';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/layout/ScrollToTop';
 import Login from './pages/admin/Login';
@@ -54,8 +56,14 @@ function App() {
       ) : (
         <Layout>
           <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
+            <Routes key={location.pathname}>
               <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+              <Route path="/privacy" element={<LegalPrivacy />} />
+              <Route path="/privacy-policy" element={<LegalPrivacy />} />
+              <Route path="/privecy" element={<LegalPrivacy />} />
+              <Route path="/terms" element={<LegalTerms />} />
+              <Route path="/terms-conditions" element={<LegalTerms />} />
+              <Route path="/terms-and-conditions" element={<LegalTerms />} />
               <Route path="/about" element={<PageTransition><About /></PageTransition>} />
               <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
               <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
