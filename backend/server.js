@@ -40,6 +40,8 @@ app.use(
         "https://lummora-engineering-project.vercel.app",
         "https://www.hirexo.in",
         "https://hirexo.in",
+        "https://lummora.in",
+        "https://www.lummora.in",
       ].filter(Boolean);
 
       if (!origin || allowedOrigins.includes(origin)) {
@@ -197,12 +199,10 @@ app.post("/api/contact", async (req, res) => {
     res.json({ message: "Email sent successfully" });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        message:
-          "Error sending email. Ensure EMAIL_PASS is correct app password.",
-      });
+    res.status(500).json({
+      message:
+        "Error sending email. Ensure EMAIL_PASS is correct app password.",
+    });
   }
 });
 
